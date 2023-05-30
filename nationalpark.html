@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <header>
+        <h2>
+            Adventure Peaks
+        </h2>
+    </header>
+    <nav>
+        <div class="logo">
+            <img src="/pic/logo.png" width="100"></a>
+          </div>
+          <ul class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="mountain.html">Mountain</a></li>
+            <li><a href="nationalpark.html">National Park</a></li>
+            </ul>
+        </nav>
+        <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <H1>Adventure Parks</H1>
+    <select id="locations">
+        <option value="any">Select a Location...</option>
+    </select>
+    AND
+    <select id="parktypes">
+        <option value="any">Select a Park Type...</option>
+    </select>
+    OR
+    <input id="searchText" placeholder="Enter text to search...">
+    <table class="table table-dark table-striped">
+    <tbody id="results"></tbody>
+    </table>
+</body>
+<script src="scripts/parkTypeData.js"></script>
+<script src="scripts/locationData.js"></script>
+<script src="scripts/nationalParkData.js"></script>
+<script>
+    /*
+    const parkTypesArray = [
+    "National Park",
+    */
+
+    parkTypesArray.forEach(parktype=>{
+        let option = document.createElement("option");
+        option.innerHTML = parktype;
+        option.value = parktype;
+        parktypes.appendChild(option)
+    });//end parktype loop
+
+    locationsArray.forEach(location=>{
+        let option = document.createElement("option");
+        option.innerHTML = location;
+        option.value = location;
+        locations.appendChild(option)
+    });//end location loop
+
+    function showParks(){
+        let selectedLocation = locations.selectedOptions[0].value;
+        let selectedParkType = parktypes.selectedOptions[0].value;
+        let text = searchText.value;
+
+        let parkList = nationalParksArray.filter(p => {
+            return ((p.State === selectedLocation || selectedLocation === "any") && 
+            (p.LocationName.includes(selectedParkType) || selectedParkType === "any")) ||
+            (JSON.stringify(Object.values(p)).toUpperCase().includes(text.toUpperCase()) && text != "")
+        });
+
+        results.innerHTML = ""; //CLEAR ANY EXISTING OLD CONTENT
+        parkList.forEach(p => {
+            let link = "N/A"; //Default
+            if (p.Visit != undefined){ //If exists
+                link = `<a href="${p.Visit}"> Visit Link </a>`
+            }
+            results.innerHTML += `
+            <tr>
+                <td>${p.LocationName}</td>
+                <td>${p.Address}</td>
+                <td>${p.City}</td>
+                <td>${p.State}</td>
+                <td>${link}</td>
+            </tr>
+            `;
+        })
+    }
+
+    locations.addEventListener("change", showParks);
+    parktypes.addEventListener("change", showParks);
+    searchText.addEventListener("input", showParks);
+/*
+const nationalParksArray = [
+    {
+    LocationID: "ABLI",
+    LocationName: "Abraham Lincoln Birthplace National Historical Park",
+    Address: "2995 Lincoln Farm Road",
+    City: "Hodgenville",
+    State: "Kentucky",
+    */
+
+    /*
+    const locationsArray = [
+    "Alabama",
+    */
+</script>

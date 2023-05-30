@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+<header>
+        <h2>
+            Adventure Peaks
+        </h2>
+</header>
+    <nav>
+        <div class="logo">
+            <img src="/pic/logo.png" width="100"></a>
+          </div>
+          <ul class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="mountain.html">Mountain</a></li>
+            <li><a href="nationalpark.html">National Park</a></li>
+            </ul>
+        </nav>
+        
+</head>
+<body>
+    <div class="main-content">
+
+        <select id="mountains">
+            <option>Select a Mountain</option>
+        </select>
+        <div id="results">Loading Your Mountain Results...</div>
+</body>
+<script src="scripts/mountainData.js"></script>
+<script>
+    mountainsArray.forEach(element => {
+        let option = document.createElement('option');
+        option.innerHTML = element.name;
+        option.value = element.name;
+        mountains.appendChild(option);
+    });
+
+    mountains.addEventListener("change", event => {
+        let selected = mountains.selectedOptions[0].value;
+        let m = mountainsArray.filter(m => m.name === selected)[0]; //ONLY ONE WILL MATCH
+        results.innerHTML = `
+        <h2>            ${m.name}           </h2>
+        <h3> Elevation: ${m.elevation} feet </h3>
+        <h4> Effort:    ${m.effort}         </h4>
+        <h4> Coordinates: Lattitude/Longitude ${m.coords.lat} / ${m.coords.lng} </h4> 
+        <p> ${m.desc} </p>
+        <img src="images/${m.img}" style="width: 100%;">
+        `; 
+    }); //end mountain list change
+    /*
+    const mountainsArray = [
+    {
+        name: "Mt. Washington",
+        elevation: 6288,
+        effort: "Strenuous",
+        img: "Washington-StoryImage_2.jpg",
+        desc: "Mt. Washington (6,288 feet) is the highest peak east of the Mississippi River and north of the Carolinas. The upper part of the mountain has a climate similar to that of northern Labrador and supports a variety of alpine flora and fauna.",
+        coords: {
+            lat: 44.270403,
+            lng: -71.303501
+        }
+    },
+    */
+   
+   const carousel = document.querySelector('.carousel');
+    M.Carousel.init(carousel);
+</script>
